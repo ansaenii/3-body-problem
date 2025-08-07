@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic 3-Body Problem Simulation</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/ui.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- Main Canvas Container -->
+    <div id="canvas-container">
+        <div id="loading-screen">
+            <div class="loading-content">
+                <div class="cosmic-logo">🌌</div>
+                <h1>Cosmic 3-Body Problem</h1>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <p class="loading-text">Initializing simulation...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- UI Overlay -->
+    <div id="ui-overlay">
+        <!-- Main Controls Panel -->
+        <div class="control-panel">
+            <div class="panel-header">
+                <h3>🌌 Simulation Controls</h3>
+                <button class="panel-toggle" id="panelToggle">−</button>
+            </div>
+            
+            <div class="panel-content">
+                <!-- Time Controls -->
+                <div class="control-group">
+                    <label>⏱️ Time Scale</label>
+                    <div class="slider-container">
+                        <input type="range" id="timeScale" min="0.01" max="10" step="0.01" value="1">
+                        <span class="slider-value" id="timeScaleValue">1.00x</span>
+                    </div>
+                </div>
+
+                <!-- Visual Controls -->
+                <div class="control-group">
+                    <label>✨ Trail Length</label>
+                    <div class="slider-container">
+                        <input type="range" id="trailLength" min="50" max="1000" step="10" value="300">
+                        <span class="slider-value" id="trailLengthValue">300</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>🌟 Particle Density</label>
+                    <div class="slider-container">
+                        <input type="range" id="particleDensity" min="0.1" max="3" step="0.1" value="1">
+                        <span class="slider-value" id="particleDensityValue">1.0</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>💫 Glow Intensity</label>
+                    <div class="slider-container">
+                        <input type="range" id="glowIntensity" min="0" max="2" step="0.1" value="1">
+                        <span class="slider-value" id="glowIntensityValue">1.0</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-group">
+                    <button class="btn btn-primary" id="resetBtn">🔄 Reset</button>
+                    <button class="btn btn-secondary" id="pauseBtn">⏸️ Pause</button>
+                    <button class="btn btn-accent" id="screenshotBtn">📸 Screenshot</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Presets Panel -->
+        <div class="presets-panel">
+            <div class="panel-header">
+                <h3>🎯 Presets</h3>
+            </div>
+            <div class="panel-content">
+                <button class="preset-btn" data-preset="figure8">Figure-8</button>
+                <button class="preset-btn" data-preset="lagrange">Lagrange</button>
+                <button class="preset-btn" data-preset="chaos">Chaos</button>
+                <button class="preset-btn" data-preset="orbit">Orbit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Panel -->
+    <div id="info-panel">
+        <div class="info-header">
+            <h3>📊 Simulation Info</h3>
+        </div>
+        <div class="info-content">
+            <div class="info-item">
+                <div class="info-label">Total Energy</div>
+                <div class="info-value" id="totalEnergy">0.000</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Angular Momentum</div>
+                <div class="info-value" id="angularMomentum">0.000</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Time Elapsed</div>
+                <div class="info-value" id="timeElapsed">0.00s</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">FPS</div>
+                <div class="info-value" id="fps">60</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Particles</div>
+                <div class="info-value" id="particleCount">0</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Monitor -->
+    <div id="performance-monitor">
+        <div class="perf-header">
+            <h3>⚡ Performance</h3>
+        </div>
+        <div class="perf-content">
+            <div class="perf-item">
+                <div class="perf-label">GPU Usage</div>
+                <div class="perf-bar">
+                    <div class="perf-fill" id="gpuUsage" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="perf-item">
+                <div class="perf-label">CPU Usage</div>
+                <div class="perf-bar">
+                    <div class="perf-fill" id="cpuUsage" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="perf-item">
+                <div class="perf-label">Memory</div>
+                <div class="perf-bar">
+                    <div class="perf-fill" id="memoryUsage" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r17/Stats.min.js"></script>
+    <script src="js/utils/MathUtils.js"></script>
+    <script src="js/utils/ColorUtils.js"></script>
+    <script src="js/utils/Performance.js"></script>
+    <script src="js/core/PhysicsEngine.js"></script>
+    <script src="js/core/Renderer.js"></script>
+    <script src="js/core/Simulation.js"></script>
+    <script src="js/effects/ParticleSystem.js"></script>
+    <script src="js/effects/TrailRenderer.js"></script>
+    <script src="js/effects/Lighting.js"></script>
+    <script src="js/effects/PostProcessing.js"></script>
+    <script src="js/ui/Controls.js"></script>
+    <script src="js/ui/Presets.js"></script>
+    <script src="js/ui/InfoPanel.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

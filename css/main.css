@@ -1,0 +1,186 @@
+/* Cosmic 3-Body Problem Simulation - Main Styles */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 50%, #2a2a4a 100%);
+    color: #ffffff;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Canvas Container */
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    background: radial-gradient(ellipse at center, #1a1a3a 0%, #0a0a2a 70%, #000000 100%);
+}
+
+/* Loading Screen */
+#loading-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease-out;
+}
+
+.loading-content {
+    text-align: center;
+    color: #ffffff;
+}
+
+.cosmic-logo {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: cosmic-pulse 2s ease-in-out infinite;
+}
+
+.loading-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(45deg, #4ecdc4, #8b5cf6, #f97316);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 3s ease-in-out infinite;
+}
+
+.loading-bar {
+    width: 300px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    margin: 0 auto 1rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.loading-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #4ecdc4, #8b5cf6, #f97316);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.3s ease;
+    animation: loading-glow 2s ease-in-out infinite;
+}
+
+.loading-text {
+    font-size: 1.1rem;
+    color: #cccccc;
+    opacity: 0.8;
+}
+
+/* Animations */
+@keyframes cosmic-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes loading-glow {
+    0%, 100% { box-shadow: 0 0 10px rgba(78, 205, 196, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.8); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .loading-content h1 {
+        font-size: 2rem;
+    }
+    
+    .loading-bar {
+        width: 250px;
+    }
+    
+    .cosmic-logo {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .loading-content h1 {
+        font-size: 1.5rem;
+    }
+    
+    .loading-bar {
+        width: 200px;
+    }
+    
+    .cosmic-logo {
+        font-size: 2.5rem;
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #4ecdc4, #8b5cf6);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #8b5cf6, #f97316);
+}
+
+/* Selection Styling */
+::selection {
+    background: rgba(78, 205, 196, 0.3);
+    color: #ffffff;
+}
+
+/* Focus Styles */
+*:focus {
+    outline: 2px solid #4ecdc4;
+    outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    body {
+        background: #000000;
+    }
+    
+    .loading-content h1 {
+        color: #ffffff;
+        -webkit-text-fill-color: #ffffff;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
